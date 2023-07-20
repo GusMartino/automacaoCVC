@@ -14,18 +14,27 @@ public class Metodos {
 
 	public Metodos() {
 		shoppingPage = new ShoppingPage();
+
 	}
 
+	/*
+	 * Esse método inicia uma requisição di tipo GET para a URL fornecida como
+	 * parâmetro usando a instância de ShoppingPage.
+	 */
 	public void iniarGet(String url) {
 		shoppingPage.sendGetRequest(url);
 
 	}
 
+	/*
+	 * Esse método valida o código de status (status code) da resposta da requisição
+	 */
 	public void validarStatusCode(int expectedStatusCode) {
 		try {
 			int statusCode = shoppingPage.getStatusCode();
 			Assert.assertEquals(expectedStatusCode, statusCode);
 			System.out.println("Status Code validado é: " + statusCode);
+
 		} catch (Exception e) {
 			String errorMessage = "Erro ao validar Status Code: " + expectedStatusCode;
 			System.err.println(errorMessage);
@@ -33,6 +42,10 @@ public class Metodos {
 		}
 	}
 
+	/*
+	 * Esse método valida se a sigla do aeroporto de partida (aeroportoPartida) está
+	 * presente na resposta da requisição
+	 */
 	public void validarAeroportoPartida(String aeroportoPartida) {
 		try {
 			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
@@ -73,6 +86,10 @@ public class Metodos {
 		}
 	}
 
+	/*
+	 * Esse método valida se a sigla do aeroporto de chegada (aeroportoChegada) está
+	 * presente na resposta da requisição
+	 */
 	public void validarAeroportoChegada(String aeroportoChegada) {
 		try {
 			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
@@ -113,6 +130,10 @@ public class Metodos {
 		}
 	}
 
+	/*
+	 * Esse método valida se o nome do passageiro principal (ADT) está presente na
+	 * resposta da requisição
+	 */
 	public void validarPassageiroPrincipal(String passageiroPrincipal) {
 		try {
 			Assert.assertTrue(shoppingPage.responseBodyContains(passageiroPrincipal));
@@ -123,6 +144,10 @@ public class Metodos {
 		}
 	}
 
+	/*
+	 * Esse método valida se um determinado tipo de passageiro (passageiro) está
+	 * presente na resposta da requisição
+	 */
 	public void validarPassageiro(String passageiro) {
 		try {
 			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
@@ -152,37 +177,73 @@ public class Metodos {
 
 	}
 
+	/* Este método extrai o valor do campo "rateToken" da resposta da requisição */
 	public String pegarRateToken() {
-	    try {
-	        JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
-	        JSONArray flights = responseJson.getJSONArray("flights");
+		try {
+			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
+			JSONArray flights = responseJson.getJSONArray("flights");
 
-	        if (flights.length() > 0) {
-	            JSONObject firstFlight = flights.getJSONObject(0);
-	            JSONArray segments = firstFlight.getJSONArray("segments");
+			if (flights.length() > 0) {
+				JSONObject firstFlight = flights.getJSONObject(0);
+				JSONArray segments = firstFlight.getJSONArray("segments");
 
-	            if (segments.length() > 0) {
-	                JSONObject firstSegment = segments.getJSONObject(0);
-	                return firstSegment.optString("rateToken");
-	            }
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+				if (segments.length() > 0) {
+					JSONObject firstSegment = segments.getJSONObject(0);
+					return firstSegment.optString("rateToken");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	    return null;
+		return null;
 	}
 
-    public void verificarRateToken() {
-        String rateToken = pegarRateToken();
+	/*
+	 * Este método serve para mostrar e guardar valor do rateToken que foi pego
+	 */
+	public void verificarRateToken() {
+		String rateToken = pegarRateToken();
 
-        if (rateToken == null) {
-            System.out.println("Não foi possível extrair o rateToken.");
-        } else {
-            System.out.println("Valor do rateToken: " + rateToken);
+		if (rateToken == null) {
+			System.out.println("Não foi possível extrair o rateToken.");
+		} else {
+			System.out.println("Valor do rateToken: " + rateToken);
 
-            String valorEsperado = "valor_esperado";
+			String valorEsperado = "valor_esperado";
 
-        }
-    }
+		}
+	}
+
+	/*
+	 * Este método pega o valor de quantidade de passageiros está presente na
+	 * resposta e valida com quantidade informada em caso de teste
+	 */
+	public void validarQuantidade(int quantidadeDePassageiros) {
+		try {
+			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
+			JSONArray flights = responseJson.getJSONArray("flights");
+
+			for (int i = 0; i < flights.length(); i++) {
+				JSONObject flight = flights.getJSONObject(i);
+				JSONArray fares = flight.getJSONObject("fareGroup").getJSONArray("fares");
+
+				for (int j = 0; j < fares.length(); j++) {
+					JSONObject fare = fares.getJSONObject(j);
+					int passengersCount = fare.getInt("passengersCount");
+
+					if (passengersCount == quantidadeDePassageiros) {
+						System.out.println("Quantidade de passageiros: " + quantidadeDePassageiros);
+						return;
+					}
+				}
+			}
+
+			// Nenhuma quantidade de passageiros encontrada, o teste falha
+			fail("Não há a quantidade certa de passageiros: " + quantidadeDePassageiros + " na resposta do GET");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Erro ao validar quantidade de passageiros: " + e.getMessage());
+		}
+	}
 }

@@ -7,9 +7,9 @@ import io.cucumber.junit.CucumberOptions;
 import io.cucumber.junit.CucumberOptions.SnippetType;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/features", 
+@CucumberOptions(features = "src/test/resources/features", //
 glue = "steps", 
-tags = "@CT01", 
+tags = "@Regressivo", 
 plugin = {"pretty", "html:target/cucumber-report.html" }, 
 snippets = SnippetType.CAMELCASE)
 

@@ -51,4 +51,9 @@ public class StepShoppingIda {
 
 	}
 
+		@Então("válido em body response quantidade de passageiros {int}")
+		public void válidoEmBodyResponseQuantidadeDePassageiros(Integer int1) {
+			metodo.validarQuantidade(int1);
+
+		}
 }
