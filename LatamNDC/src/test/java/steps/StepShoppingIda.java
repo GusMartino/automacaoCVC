@@ -3,16 +3,17 @@ package steps;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
 import io.cucumber.java.pt.Quando;
-import metodos.Metodos;
+import metodos.MetodosShopping;
+import utilidades.MassaDeDados;
 
 public class StepShoppingIda {
 
-	Metodos metodo = new Metodos();
+	MetodosShopping metodo = new MetodosShopping();
+	String rateToken;
 
 	@Dado("que o usuário faça uma pesquisa com a opção só ida {string}")
 	public void queOUsuárioFaçaUmaPesquisaComAOpçãoSóIda(String url) {
-		metodo.iniarGet(url);
-		
+		metodo.iniarGetShoppingIda(url);
 
 	}
 
@@ -25,23 +26,22 @@ public class StepShoppingIda {
 	@Então("válido em body response aeroporto saída {string}")
 	public void válidoEmBodyResponseAeroportoSaída(String aeroportoSaída) {
 		metodo.validarAeroportoPartida(aeroportoSaída);
-		
 
 	}
 
 	@Então("válido em body response aeroporto chegada {string}")
 	public void válidoEmBodyResponseAeroportoChegada(String aeroportoChegada) {
 		metodo.validarAeroportoChegada(aeroportoChegada);
-		
 
 	}
 
-	@Então("válido em body response se há passageiro {string}")
-	public void válidoEmBodyResponseSeHáPassageiro(String passageiro) {
+	@Então("ao válidar em body response se há passageiro {string} guardo o rateToken {string}")
+	public void aoVálidarEmBodyResponseSeHáPassageiroGuardoORateToken(String passageiro, String tokenCT) {
 		metodo.validarPassageiroPrincipal(passageiro);
-		metodo.pegarRateToken();
-		metodo.verificarRateToken();
-		
+	    String rateToken = metodo.pegarRateToken(tokenCT);
+	 // Armazena o rateToken na classe Massa de dados
+	    MassaDeDados.setRateToken(tokenCT, rateToken); 
+	    metodo.verificarRateToken(tokenCT);
 
 	}
 
@@ -51,9 +51,9 @@ public class StepShoppingIda {
 
 	}
 
-		@Então("válido em body response quantidade de passageiros {int}")
-		public void válidoEmBodyResponseQuantidadeDePassageiros(Integer int1) {
-			metodo.validarQuantidade(int1);
+	@Então("válido em body response quantidade de passageiros {int} {string}")
+	public void válidoEmBodyResponseQuantidadeDePassageiros(Integer int1, String tipoPassageiros) {
+		metodo.validarQuantidade(int1, tipoPassageiros);
 
-		}
+	}
 }

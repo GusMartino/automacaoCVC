@@ -2,27 +2,42 @@ package metodos;
 
 import static org.junit.Assert.fail;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 
 import pages.ShoppingPage;
 
-public class Metodos {
+public class MetodosShopping {
 
-	private ShoppingPage shoppingPage;
+	private static ShoppingPage shoppingPage;
 
-	public Metodos() {
+	private Map<String, String> rateTokensMap;
+
+	public MetodosShopping() {
 		shoppingPage = new ShoppingPage();
+		rateTokensMap = new HashMap<>();
 
 	}
 
 	/*
-	 * Esse método inicia uma requisição di tipo GET para a URL fornecida como
+	 * Esse método inicia uma requisição do tipo GET para a URL fornecida como
 	 * parâmetro usando a instância de ShoppingPage.
 	 */
-	public void iniarGet(String url) {
-		shoppingPage.sendGetRequest(url);
+	public void iniarGetShoppingIda(String url) {
+		shoppingPage.sendGetRequestShopping(url);
+
+	}
+
+	/*
+	 * Esse método inicia uma requisição do tipo GET com espaço na URL fornecida
+	 * como parâmetro usando a instância de ShoppingPage em ida e volta.
+	 */
+	public void iniarGetShoppingIdaVolta(String url) {
+		shoppingPage.sendGetRequestIdaVoltaSopping(url);
 
 	}
 
@@ -35,8 +50,16 @@ public class Metodos {
 			Assert.assertEquals(expectedStatusCode, statusCode);
 			System.out.println("Status Code validado é: " + statusCode);
 
+		} catch (AssertionError e) {
+			int actualStatusCode = shoppingPage.getStatusCode();
+			String responseBody = shoppingPage.getResponseBody();
+			String errorMessage = "Erro ao validar Status Code. Esperado: " + expectedStatusCode
+					+ ", mas foi recebido: " + actualStatusCode;
+			System.err.println(errorMessage);
+			System.err.println("Resposta do servidor: " + responseBody);
+			Assert.fail(errorMessage);
 		} catch (Exception e) {
-			String errorMessage = "Erro ao validar Status Code: " + expectedStatusCode;
+			String errorMessage = "Erro inesperado ao validar Status Code: " + expectedStatusCode;
 			System.err.println(errorMessage);
 			Assert.fail(errorMessage);
 		}
@@ -178,7 +201,7 @@ public class Metodos {
 	}
 
 	/* Este método extrai o valor do campo "rateToken" da resposta da requisição */
-	public String pegarRateToken() {
+	public String pegarRateToken(String tokenCT) {
 		try {
 			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
 			JSONArray flights = responseJson.getJSONArray("flights");
@@ -189,7 +212,12 @@ public class Metodos {
 
 				if (segments.length() > 0) {
 					JSONObject firstSegment = segments.getJSONObject(0);
-					return firstSegment.optString("rateToken");
+					String rateToken = firstSegment.optString("rateToken");
+
+					// Adiciona o rateToken ao mapa usando o nome do CT como chave
+					rateTokensMap.put(tokenCT, rateToken);
+
+					return rateToken;
 				}
 			}
 		} catch (Exception e) {
@@ -200,17 +228,14 @@ public class Metodos {
 	}
 
 	/*
-	 * Este método serve para mostrar e guardar valor do rateToken que foi pego
+	 * Este método serve para mostrar o valor do rateToken que foi pego
 	 */
-	public void verificarRateToken() {
-		String rateToken = pegarRateToken();
-
+	public void verificarRateToken(String tokenCT) {
+		String rateToken = pegarRateToken(tokenCT);
 		if (rateToken == null) {
 			System.out.println("Não foi possível extrair o rateToken.");
 		} else {
 			System.out.println("Valor do rateToken: " + rateToken);
-
-			String valorEsperado = "valor_esperado";
 
 		}
 	}
@@ -219,7 +244,7 @@ public class Metodos {
 	 * Este método pega o valor de quantidade de passageiros está presente na
 	 * resposta e valida com quantidade informada em caso de teste
 	 */
-	public void validarQuantidade(int quantidadeDePassageiros) {
+	public void validarQuantidade(int quantidadeDePassageiros, String tipoPassageiros) {
 		try {
 			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
 			JSONArray flights = responseJson.getJSONArray("flights");
@@ -233,7 +258,8 @@ public class Metodos {
 					int passengersCount = fare.getInt("passengersCount");
 
 					if (passengersCount == quantidadeDePassageiros) {
-						System.out.println("Quantidade de passageiros: " + quantidadeDePassageiros);
+						System.out.println(
+								"Quantidade do tipo de passageiros: " + quantidadeDePassageiros + tipoPassageiros);
 						return;
 					}
 				}
@@ -244,6 +270,7 @@ public class Metodos {
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Erro ao validar quantidade de passageiros: " + e.getMessage());
+
 		}
 	}
 }

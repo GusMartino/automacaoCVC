@@ -3,37 +3,17 @@ package pages;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
-public class ShoppingPage {
+public class PricingPage {
 
 	private Response response;
 
-
-	/*
-	 * Este método é responsável por enviar uma requisição HTTP GET para a URL
-	 * fornecida como parâmetro
-	 */
-	public void sendGetRequestShopping(String url) {
+	public void iniciarGetRequestPricing(String url, String tokenCT) {
 		response = RestAssured.given().header("Accept", "application/json; charset=utf-8")
 				.header("Accept-Charset", "utf-8").header("Content-Type", "application/json; charset=utf-8")
 				.header("Gtw-Agency-Id", "").header("Gtw-Agent-Sign", "").header("Gtw-Branch-Id", "9999")
-				.header("Gtw-Group-Id", "").header("Gtw-Password", "integracaogw").header("Gtw-Username", "api.support")
+				.header("Gtw-Group-Id", "").header("Gtw-Password", "integracaogw")
+				.header("Gtw-Tokenized-Rate-Tokens", tokenCT).header("Gtw-Username", "api.support")
 				.header("X-Api-Key", "").get(url);
-	}
-
-	/*
-	 * Esse método serve para fazer request do shoppingService utilizando o espaço
-	 * em passagens de ida e volta
-	 */
-	public void sendGetRequestIdaVoltaSopping(String url) {
-		// Substitui os espaços por %20 na URL
-		String encodedUrl = url.replace(" ", "%20");
-
-		response = RestAssured.given().header("Accept", "application/json; charset=utf-8")
-				.header("Accept-Charset", "utf-8").header("Content-Type", "application/json; charset=utf-8")
-				.header("Gtw-Agency-Id", "").header("Gtw-Agent-Sign", "").header("Gtw-Branch-Id", "9999")
-				.header("Gtw-Group-Id", "").header("Gtw-Password", "integracaogw").header("Gtw-Username", "api.support")
-				.header("X-Api-Key", "").get(encodedUrl);
-
 	}
 
 	/*
@@ -58,4 +38,5 @@ public class ShoppingPage {
 		String responseBody = getResponseBody();
 		return responseBody.contains(palavra);
 	}
+
 }
