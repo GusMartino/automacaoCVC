@@ -23,7 +23,17 @@ public class MetodosPricing {
 	 * parâmetro usando a instância de PricingPage.
 	 */
 	public void iniarGetPricingIda(String url, String tokenCT) {
-		pricingPage.iniciarGetRequestPricing(url, tokenCT);
+		pricingPage.iniciarGetRequestPricingIda(url, tokenCT);
+	}
+
+	/*
+	 * Esse método inicia uma requisição do tipo GET para a URL fornecida como
+	 * parâmetro usando a instância de PricingPage mesclando os tokens de ida e
+	 * volta.
+	 */
+	public void iniarGetPricingVolta(String url, String tokenIda, String tokenVolta) {
+		pricingPage.iniciarGetRequestPricingVolta(url, tokenIda, tokenVolta);
+
 	}
 
 	/*
@@ -120,8 +130,49 @@ public class MetodosPricing {
 			System.out.println("Não foi possível extrair o rateToken.");
 		} else {
 			System.out.println("Valor do rateToken: " + rateToken);
-
 		}
 	}
 
+	/*
+	 * Este método extrai o valor do campo "rateToken" da resposta de Pricing
+	 * UTILIZADO PARA SEGMENTOS DE IDA E VOLTA
+	 */
+
+	public String pegarRateTokenPorVoo(String partida, String chegada) {
+		try {
+			JSONObject responseJson = new JSONObject(pricingPage.getResponseBody());
+			JSONObject priceGroup = responseJson.getJSONObject("priceGroup");
+			JSONArray segments = priceGroup.getJSONArray("segments");
+
+			for (int i = 0; i < segments.length(); i++) {
+				String rateToken = extrairRateToken(segments, partida, chegada);
+				if (rateToken != null) {
+					return rateToken;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	private String extrairRateToken(JSONArray segmentsArray, String partida, String chegada) {
+		try {
+			for (int j = 0; j < segmentsArray.length(); j++) {
+				JSONObject segmentObject = segmentsArray.getJSONObject(j);
+				String departure = segmentObject.optString("departure");
+				String arrival = segmentObject.optString("arrival");
+				String rateToken = segmentObject.optString("rateToken");
+
+				if (partida.equals(departure) && chegada.equals(arrival)) {
+					return rateToken;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

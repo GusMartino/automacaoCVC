@@ -27,17 +27,8 @@ public class MetodosShopping {
 	 * Esse método inicia uma requisição do tipo GET para a URL fornecida como
 	 * parâmetro usando a instância de ShoppingPage.
 	 */
-	public void iniarGetShoppingIda(String url) {
+	public void iniarGetShopping(String url) {
 		shoppingPage.sendGetRequestShopping(url);
-
-	}
-
-	/*
-	 * Esse método inicia uma requisição do tipo GET com espaço na URL fornecida
-	 * como parâmetro usando a instância de ShoppingPage em ida e volta.
-	 */
-	public void iniarGetShoppingIdaVolta(String url) {
-		shoppingPage.sendGetRequestIdaVoltaSopping(url);
 
 	}
 
@@ -70,43 +61,45 @@ public class MetodosShopping {
 	 * presente na resposta da requisição
 	 */
 	public void validarAeroportoPartida(String aeroportoPartida) {
-		try {
-			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
-			JSONArray flights = responseJson.getJSONArray("flights");
+	    try {
+	        JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
+	        JSONArray flights = responseJson.getJSONArray("flights");
 
-			boolean found = false;
+	        boolean found = false;
 
-			for (int i = 0; i < flights.length(); i++) {
-				JSONObject flight = flights.getJSONObject(i);
-				JSONArray segments = flight.getJSONArray("segments");
+	        for (int i = 0; i < flights.length(); i++) {
+	            JSONObject flight = flights.getJSONObject(i);
+	            JSONArray segments = flight.getJSONArray("segments");
 
-				for (int j = 0; j < segments.length(); j++) {
-					JSONObject segment = segments.getJSONObject(j);
-					String departure = segment.getString("departure");
+	            for (int j = 0; j < segments.length(); j++) {
+	                JSONObject segment = segments.getJSONObject(j);
+	                String departure = segment.getString("departure");
 
-					if (departure.equals(aeroportoPartida)) {
-						found = true;
-						break;
+	                if (departure.equals(aeroportoPartida)) {
+	                    found = true;
+	                    break;
+	                }
+	            }
 
-					}
-				}
+	            if (found) {
+	                break;
+	            }
+	        }
 
-				if (found) {
-					break;
-				}
-			}
+	        if (found) {
+	            System.out.println("Siglas do aeroporto de partida: " + aeroportoPartida);
+	        } else {
+	            String errorMessage = "Falha ao encontrar o aeroporto " + aeroportoPartida;
+	            System.err.println(errorMessage);
+		        String responseBody = shoppingPage.getResponseBody();
+		        System.err.println("Erro ao processar o corpo da resposta: " + responseBody);
+		        Assert.fail("Erro ao processar o corpo da resposta");
+	            Assert.fail(errorMessage);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
 
-			if (found) {
-				System.out.println("Siglas do aeroporto de partida: " + aeroportoPartida);
-			} else {
-				String errorMessage = "Falha ao encontrar o aeroporto " + aeroportoPartida;
-				System.err.println(errorMessage);
-				Assert.fail(errorMessage);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail("Erro ao processar o corpo da resposta");
-		}
+	    }
 	}
 
 	/*
@@ -144,12 +137,15 @@ public class MetodosShopping {
 				System.out.println("Siglas do aeroporto de partida: " + aeroportoChegada);
 			} else {
 				String errorMessage = "Falha ao encontrar o aeroporto " + aeroportoChegada;
+		        String responseBody = shoppingPage.getResponseBody();
+		        System.err.println("Erro ao processar o corpo da resposta: " + responseBody);
+		        Assert.fail("Erro ao processar o corpo da resposta");
 				System.err.println(errorMessage);
 				Assert.fail(errorMessage);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail("Erro ao processar o corpo da resposta");
+
 		}
 	}
 
@@ -160,7 +156,7 @@ public class MetodosShopping {
 	public void validarPassageiroPrincipal(String passageiroPrincipal) {
 		try {
 			Assert.assertTrue(shoppingPage.responseBodyContains(passageiroPrincipal));
-			System.out.println("Há o passsageiro necessário para conseguir sucesso em pesquisa " + passageiroPrincipal);
+			System.out.println("Há o passsageiro necessário para prosseguir com sucesso " + passageiroPrincipal);
 		} catch (Exception e) {
 			fail("Falha em buscar o passageiro principal " + passageiroPrincipal);
 			e.printStackTrace();
@@ -200,7 +196,7 @@ public class MetodosShopping {
 
 	}
 
-	/* Este método extrai o valor do campo "rateToken" da resposta da requisição */
+	/* Este método pega o valor do campo "rateToken" da resposta da requisição */
 	public String pegarRateToken(String tokenCT) {
 		try {
 			JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
@@ -273,4 +269,71 @@ public class MetodosShopping {
 
 		}
 	}
+
+	 public String pegarRateTokenPorVoo(String partida, String chegada) {
+	        try {
+	            JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
+	            JSONArray flights = responseJson.getJSONArray("flights");
+
+	            for (int i = 0; i < flights.length(); i++) {
+	                JSONObject flight = flights.getJSONObject(i);
+	                JSONArray segments = flight.getJSONArray("segments");
+
+	                // Chama o método para obter o rateToken com base na partida e chegada
+	                String rateToken = extrairRateToken(segments, partida, chegada);
+
+	                if (rateToken != null) {
+	                    return rateToken;
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return null;
+	    }
+
+	    private String extrairRateToken(JSONArray segmentsArray, String partida, String chegada) {
+	        try {
+	            for (int j = 0; j < segmentsArray.length(); j++) {
+	                JSONObject segmentObject = segmentsArray.getJSONObject(j);
+	                String departure = segmentObject.optString("departure");
+	                String arrival = segmentObject.optString("arrival");
+	                String rateToken = segmentObject.optString("rateToken");
+
+	                if (partida.equals(departure) && chegada.equals(arrival)) {
+	                    return rateToken;
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return null;
+	    }
+	   
+	    public void validarMensagemErro(String erroCode, String erroMessage) {
+	        try {
+	            JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
+	            JSONObject errorObject = responseJson.getJSONObject("error");
+	            String errorCode = errorObject.getString("code");
+	            String errorMessage = errorObject.getString("message");
+
+	            if (errorCode.equals(erroCode) && errorMessage.equals(erroMessage)) {
+	            	System.out.println("Código de erro: " + erroCode);
+	                System.out.println("Mensagem de erro válida: " + errorMessage);
+	            } else {
+	                String errorDetails = "Erro inesperado. Código esperado: " + erroCode +
+	                                     ", Mensagem esperada: " + erroMessage +
+	                                     ", Código recebido: " + errorCode +
+	                                     ", Mensagem recebida: " + errorMessage;
+	                System.err.println(errorDetails);
+	                Assert.fail(errorDetails);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            Assert.fail("Erro ao validar mensagem de erro: " + e.getMessage());
+	        }
+	    }
 }
+

@@ -13,7 +13,7 @@ public class StepShoppingIda {
 
 	@Dado("que o usuário faça uma pesquisa com a opção só ida {string}")
 	public void queOUsuárioFaçaUmaPesquisaComAOpçãoSóIda(String url) {
-		metodo.iniarGetShoppingIda(url);
+		metodo.iniarGetShopping(url);
 
 	}
 
@@ -38,10 +38,9 @@ public class StepShoppingIda {
 	@Então("ao válidar em body response se há passageiro {string} guardo o rateToken {string}")
 	public void aoVálidarEmBodyResponseSeHáPassageiroGuardoORateToken(String passageiro, String tokenCT) {
 		metodo.validarPassageiroPrincipal(passageiro);
-	    String rateToken = metodo.pegarRateToken(tokenCT);
-	 // Armazena o rateToken na classe Massa de dados
-	    MassaDeDados.setRateToken(tokenCT, rateToken); 
-	    metodo.verificarRateToken(tokenCT);
+		String rateToken = metodo.pegarRateToken(tokenCT);
+		metodo.verificarRateToken(tokenCT);
+		MassaDeDados.setRateToken(tokenCT, rateToken);
 
 	}
 
@@ -52,8 +51,9 @@ public class StepShoppingIda {
 	}
 
 	@Então("válido em body response quantidade de passageiros {int} {string}")
-	public void válidoEmBodyResponseQuantidadeDePassageiros(Integer int1, String tipoPassageiros) {
-		metodo.validarQuantidade(int1, tipoPassageiros);
+	public void válidoEmBodyResponseQuantidadeDePassageiros(Integer qntPassageiros, String tipoPassageiros) {
+		metodo.validarQuantidade(qntPassageiros, tipoPassageiros);
 
 	}
+	
 }

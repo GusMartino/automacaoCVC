@@ -11,8 +11,8 @@ public class StepPricingIda {
 	MetodosPricing metodo = new MetodosPricing();
 	String rateToken;
 
-	@Dado("seleciono rateToken {string} e inicio chamada em API {string}")
-	public void selecionoRateTokenEInicioChamadaEmAPI(String tokenCT, String url) {
+	@Dado("que seleciono rateToken {string} e inicio chamada em API {string}")
+	public void queSelecionoRateTokenEInicioChamadaEmAPI(String tokenCT, String url) {
 		String rateToken = MassaDeDados.getRateToken(tokenCT);
 		metodo.iniarGetPricingIda(url, rateToken);
 
@@ -31,10 +31,10 @@ public class StepPricingIda {
 	}
 
 	@Então("guardo rateToken para utilizar em booking {string}")
-	public void guardoRateTokenParaUtilizarEmBooking(String BTokenCT) {
-		String rateToken = metodo.pegarRateToken(BTokenCT);
-		MassaDeDados.setRateToken(BTokenCT, rateToken);
-		metodo.verificarRateToken(BTokenCT);
+	public void guardoRateTokenParaUtilizarEmBooking(String bTokenCT) {
+		String rateToken = metodo.pegarRateToken(bTokenCT);
+		MassaDeDados.setRateToken(bTokenCT, rateToken);
+		metodo.verificarRateToken(bTokenCT);
 
 	}
 }

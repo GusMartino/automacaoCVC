@@ -7,12 +7,22 @@ public class PricingPage {
 
 	private Response response;
 
-	public void iniciarGetRequestPricing(String url, String tokenCT) {
+	public void iniciarGetRequestPricingIda(String url, String tokenCT) {
 		response = RestAssured.given().header("Accept", "application/json; charset=utf-8")
 				.header("Accept-Charset", "utf-8").header("Content-Type", "application/json; charset=utf-8")
 				.header("Gtw-Agency-Id", "").header("Gtw-Agent-Sign", "").header("Gtw-Branch-Id", "9999")
 				.header("Gtw-Group-Id", "").header("Gtw-Password", "integracaogw")
 				.header("Gtw-Tokenized-Rate-Tokens", tokenCT).header("Gtw-Username", "api.support")
+				.header("X-Api-Key", "").get(url);
+		
+	}
+
+	public void iniciarGetRequestPricingVolta(String url, String tokenIda, String tokenVolta) {
+		response = RestAssured.given().header("Accept", "application/json; charset=utf-8")
+				.header("Accept-Charset", "utf-8").header("Content-Type", "application/json; charset=utf-8")
+				.header("Gtw-Agency-Id", "").header("Gtw-Agent-Sign", "").header("Gtw-Branch-Id", "9999")
+				.header("Gtw-Group-Id", "").header("Gtw-Password", "integracaogw")
+				.header("Gtw-Tokenized-Rate-Tokens", tokenIda + "," + tokenVolta).header("Gtw-Username", "api.support")
 				.header("X-Api-Key", "").get(url);
 	}
 

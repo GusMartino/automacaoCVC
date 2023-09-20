@@ -2,7 +2,9 @@ package steps;
 
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
+import io.cucumber.java.pt.Quando;
 import metodos.MetodosShopping;
+import utilidades.MassaDeDados;
 
 public class StepShoppingVolta {
 
@@ -10,13 +12,57 @@ public class StepShoppingVolta {
 
 	@Dado("que o usuário faça uma pesquisa com a opção ida e volta {string}")
 	public void queOUsuárioFaçaUmaPesquisaComAOpçãoIdaEVolta(String url) {
-		metodo.iniarGetShoppingIdaVolta(url);
+		metodo.iniarGetShopping(url);
+	}
+
+	@Quando("valido status code {int}")
+	public void validoStatusCode(Integer statusCode) {
+		metodo.validarStatusCode(statusCode);
 
 	}
 
-	@Então("se houver passageiro {string} em response pego token de ida {string} e volta {string}")
-	public void seHouverPassageiroEmResponsePegoTokenDeIdaEVolta(String passageiro, String AeroportoIda,
-			String AeroportoVolta) {
+	@Então("válido em body response aeroporto de ida {string}")
+	public void válidoEmBodyResponseAeroportoDeIda(String aeroportoIda) {
+		metodo.validarAeroportoPartida(aeroportoIda);
+
+	}
+
+	@Então("válido em body response aeroporto chegada e volta {string}")
+	public void válidoEmBodyResponseAeroportoChegadaEVolta(String aeroportoChegada) {
+		metodo.validarAeroportoChegada(aeroportoChegada);
+
+	}
+
+	@Então("se houver passageiro {string} em response pego token de ida {string} {string} e volta {string} {string}")
+	public void seHouverPassageiroEmResponsePegoTokenDeIdaEVolta(String passageiro, String aeroportoIda,
+			String tokenIdaCT, String aeroportoVolta, String tokenVoltaCT) {
+		metodo.validarPassageiroPrincipal(passageiro);
+		String rateTokenIda = metodo.pegarRateTokenPorVoo(aeroportoIda, aeroportoVolta);
+		metodo.verificarRateToken(rateTokenIda);
+		MassaDeDados.setRateToken(tokenIdaCT, rateTokenIda);
+
+		String rateTokenVolta = metodo.pegarRateTokenPorVoo(aeroportoVolta, aeroportoIda);
+		System.out.println("O valor do rate Token de volta: " + rateTokenVolta);
+		MassaDeDados.setRateToken(tokenVoltaCT, rateTokenVolta);
+	}
+
+	@Então("válido em body response passageiro alternativo {string}")
+	public void válidoEmBodyResponsePassageiroAlternativo(String passageiro) {
+		metodo.validarPassageiro(passageiro);
+
+	}
+
+	@Então("válido em body response quantidade de passageiros alternativos {int} {string}")
+	public void válidoEmBodyResponseQuantidadeDePassageirosAlternativos(Integer qntPassageiros,
+			String tipoPassageiros) {
+
+		metodo.validarQuantidade(qntPassageiros, tipoPassageiros);
+
+	}
+
+	@Então("válido em body response quantidade de passageiros no total {int} {string}")
+	public void válidoEmBodyResponseQuantidadeDePassageirosNoTotal(Integer qntPassageiros, String tipoPassageiros) {
+		metodo.validarQuantidade(qntPassageiros, tipoPassageiros);
 
 	}
 

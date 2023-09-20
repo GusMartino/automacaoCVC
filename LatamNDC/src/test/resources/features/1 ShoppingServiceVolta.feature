@@ -2,65 +2,74 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @FlightAvailabilityVolta @Cenário02
+@Regressivo @FlightAvailability @Cenário02
 Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     Eu como usuário quero fazer pesquisa de passagens de Ida e volta e validar informações importantes de retorno
 
   @CT01 
   Cenário: Get com um adulto SAO/RIO e RIO/SAO
     Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,GIG,2023-09-15, GIG,GRU,2023-10-15"
-    Quando valido status code de response 200
-    Então válido em body response aeroporto ida "GRU"
-    E válido em body response aeroporto chegada "GIG"
-    E se houver passageiro "ADT" em response pego token de ida "GRU" e volta "GRU"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "GRU"
+    E válido em body response aeroporto chegada e volta "GIG"
+    E se houver passageiro "ADT" em response pego token de ida "GRU" "tokenIdaCT01" e volta "GIG" "tokenVoltaCT01"
 
   
    @CT02 
    Cenário: Get com um adulto e uma criança SAO/MAD e MAD/SAO
-    Dado que o usuário faça uma pesquisa com a opção ida e volta  "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,7&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=SAO,MAD,2023-10-10&packageGroup=GW-CERT&businessClass=YES"
-    Quando valido status code de response 200
-    Então válido em body response aeroporto saída "GRU"
-    E válido em body response aeroporto chegada "MAD"
-    E válido em body response se há passageiro "ADT"
-    E válido em body response passageiro "CHD"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,9&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,MAD,2023-09-15, MAD,SAO,2023-10-15"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "GRU"
+    E válido em body response aeroporto chegada e volta "MAD"
+    E se houver passageiro "ADT" em response pego token de ida "GRU" "tokenIdaCT02" e volta "MAD" "tokenVoltaCT02"
+    E válido em body response passageiro alternativo "CHD"
     
    @CT03 
    Cenário: Get com um adulto e um bebê GIG/BPS e BPS/GIG
-    Dado que o usuário faça uma pesquisa com a opção ida e volta  "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&ages=30,0&source=NLAT&routes=RIO,BPS,2023-11-20&packageGroup=GW-CERT"
-    Quando valido status code de response 200
-    Então válido em body response aeroporto saída "GIG"
-    E válido em body response aeroporto chegada "BPS"
-    E válido em body response se há passageiro "ADT"
-    E válido em body response passageiro "INF"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,1&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GIG,BPS,2023-09-15, BPS,GIG,2023-10-15"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "GIG"
+    E válido em body response aeroporto chegada e volta "BPS"
+    E se houver passageiro "ADT" em response pego token de ida "GIG" "tokenIdaCT03" e volta "BPS" "tokenVoltaCT03"
+    E válido em body response passageiro alternativo "INF"
 
    @CT04
-   Cenário: Get com nove adultos MAD/SAO e SAO/MAD
-    Dado que o usuário faça uma pesquisa com a opção ida e volta  "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyPremiumClass=YES&routes=MAD,SAO,2023-10-10&packageGroup=GW-CERT"
-    Quando valido status code de response 200
-    Então válido em body response aeroporto saída "MAD"
-    E válido em body response aeroporto chegada "GRU"
-    E válido em body response se há passageiro "ADT"
-    E válido em body response quantidade de passageiros 9 "ADTS"
+   Cenário: Get com nove adultos NAT/FOR e FOR/NAT
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FOR,NAT,2023-09-15, NAT,FOR,2023-10-15"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "NAT"
+    E válido em body response aeroporto chegada e volta "FOR"
+    E se houver passageiro "ADT" em response pego token de ida "NAT" "tokenIdaCT04" e volta "FOR" "tokenVoltaCT04"
+    E válido em body response quantidade de passageiros no total 9 "ADTS"
+
     
    @CT05
    Cenário: Get com um adulto e oito crianças BPS/FLN e FLN/BPS
-    Dado que o usuário faça uma pesquisa com a opção ida e volta  "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,9,9,9,9,9,9,9,9&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=BPS,FLN,2023-10-20&economyClass=YES&packageGroup=GW-CERT"
-    Quando valido status code de response 200
-    Então válido em body response aeroporto saída "BPS"
-    E válido em body response aeroporto chegada "FLN"
-    E válido em body response se há passageiro "ADT"
-    E válido em body response passageiro "CHD"
-    E válido em body response quantidade de passageiros 8 "CHDS"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,8,8,8,8,8,8,8,8&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FLN,BPS,2023-09-15, BPS,FLN,2023-10-15"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "BPS"
+    E válido em body response aeroporto chegada e volta "FLN"
+    E se houver passageiro "ADT" em response pego token de ida "BPS" "tokenIdaCT05" e volta "FLN" "tokenVoltaCT05"
+    E válido em body response quantidade de passageiros alternativos 8 "CHDS"
+
     
    @CT06
    Cenário: Get com três adultos, três crianças e três bebês FLN/GRU e GRU/FLN
-    Dado que o usuário faça uma pesquisa com a opção ida e volta  "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,9,9,9,0,0,0&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=FLN,GRU,2023-10-20&packageGroup=GW-CERT"
-    Quando valido status code de response 200
-    Então válido em body response aeroporto saída "FLN"
-    E válido em body response aeroporto chegada "GRU"
-    E válido em body response se há passageiro "ADT"
-    E válido em body response passageiro "CHD"      
-    E válido em body response passageiro "INF"
-    E válido em body response quantidade de passageiros 3 "De cada"      
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,1,1,1,9,9,9&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FLN,GRU,2023-09-15, GRU,FLN,2023-10-15"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "FLN"
+    E válido em body response aeroporto chegada e volta "GRU"
+    E se houver passageiro "ADT" em response pego token de ida "FLN" "tokenIdaCT06" e volta "GRU" "tokenVoltaCT06"
+    E válido em body response passageiro alternativo "CHD"      
+    E válido em body response passageiro alternativo "INF"
+
+    
+  @CT07 
+  Cenário: Get com um adulto estrangeiro GRU/DXB e DXB/GRU
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,DXB,2023-09-15, DXB,GRU,2023-10-15"
+    Quando valido status code 200
+    Então válido em body response aeroporto de ida "GRU"
+    E válido em body response aeroporto chegada e volta "DXB"
+    E se houver passageiro "ADT" em response pego token de ida "GRU" "tokenIdaCT07" e volta "DXB" "tokenVoltaCT07"
 
 
