@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @InformativePricing @Cenário02
+@Regressivo @InformativePricing @Cenário02 @Ida
 Funcionalidade: Validação de get em InformativePricing Ida
     Eu como usuário quero confirmar preço de voo e validar respota
 
@@ -18,7 +18,7 @@ Funcionalidade: Validação de get em InformativePricing Ida
     Dado que seleciono rateToken de ida "tokenIdaCT02" junto a token de volta "tokenVoltaCT02" e inicio chamada em API "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/rateTokens?preferences=persistLog,language:pt_BR,currency:BRL"
     Quando válido status code em response 200
     Então válido em body response chegada na ida no aeropoto "MAD"
-    E guardo rateToken de ida "GRU" "bTokenIdaCT01" e volta "MAD" "bTokenVoltaCT02" para utilizar em booking     
+    E guardo rateToken de ida "GRU" "bTokenIdaCT02" e volta "MAD" "bTokenVoltaCT02" para utilizar em booking     
     
   @CT03
   Cenário: Get de confirmação de preço com um adulto e um bebê GIG/BPS e BPS/GIG

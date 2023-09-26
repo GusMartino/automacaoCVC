@@ -31,4 +31,8 @@ public class StepShoppingNegativo {
 
 	}
 
+	@Então("válido retorno de voos zerado")
+	public void válidoRetornoDeVoosZerado() {
+		metodo.getCountFlights();
+	}
 }

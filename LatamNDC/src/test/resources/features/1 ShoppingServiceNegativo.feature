@@ -44,3 +44,10 @@ Funcionalidade: Validação de get em FlightAvailability resposta negativa
     Quando preencho uma váriavel negativa para consultar disponibilidade
     Então válido statusCode 500
    
+   @CT07
+   Cenário: Get com para voo sem disponibilidade 
+    Dado que o usuário faça uma pesquisa de disponibilidade de voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=DXB,CGH,2024-02-08&packageGroup=GW-CERT&economyClass=YES&economyPremiumClass=YES"
+    Quando preencho uma váriavel negativa para consultar disponibilidade
+    Então válido statusCode 200   
+    E válido retorno de voos zerado
+    

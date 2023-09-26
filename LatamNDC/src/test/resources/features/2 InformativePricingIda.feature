@@ -6,7 +6,7 @@
 Funcionalidade: Validação de get em InformativePricing Ida
     Eu como usuário quero confirmar preço de voo e validar respota
 
-  @CT01 
+  @CT01 @Teste
   Cenário: Get de confirmação de preço com um adulto SAO/RIO 
     Dado que seleciono rateToken "CT01" e inicio chamada em API "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/rateTokens?preferences=persistLog,language:pt_BR,currency:BRL"
     Quando válido status code 200
@@ -29,10 +29,10 @@ Funcionalidade: Validação de get em InformativePricing Ida
     E guardo rateToken para utilizar em booking "bTokenCT03"
     
   @CT04 
-  Cenário: Get de confirmação de preço com nove adultos MAD/SAO
+  Cenário: Get de confirmação de preço com nove adultos NAT/FOR
     Dado que seleciono rateToken "CT04" e inicio chamada em API "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/rateTokens?preferences=persistLog,language:pt_BR,currency:BRL"
     Quando válido status code 200
-    Então válido em body response chegada no aeropoto "GRU"
+    Então válido em body response chegada no aeropoto "FOR"
     E guardo rateToken para utilizar em booking "bTokenCT04"
     
   @CT05 

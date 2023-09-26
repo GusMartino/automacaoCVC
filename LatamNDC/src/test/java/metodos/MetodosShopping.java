@@ -335,5 +335,19 @@ public class MetodosShopping {
 	            Assert.fail("Erro ao validar mensagem de erro: " + e.getMessage());
 	        }
 	    }
-}
+	    
+	    public int getCountFlights() {
+	        JSONObject responseJson = new JSONObject(shoppingPage.getResponseBody());
+	        JSONObject meta = responseJson.getJSONObject("meta");
+	        int countFlights = meta.getInt("countFlights");
+	        
+	        if (countFlights == 0) {
+	            System.out.println("O valor de countFlights é 0. Corpo da resposta:");
+	            System.out.println(shoppingPage.getResponseBody());
+	        }
+	        
+	        return countFlights;
+	    }
+	}
+
 

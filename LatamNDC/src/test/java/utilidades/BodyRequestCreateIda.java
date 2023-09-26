@@ -29,14 +29,14 @@ public class BodyRequestCreateIda {
 
 		JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
 
-		JSONObject document = new JSONObject().put("type", "CPF").put("doc", "50708000002").put("issuingCountry", "BR")
+		JSONObject document = new JSONObject().put("type", "CPF").put("doc", "40369532066").put("issuingCountry", "BR")
 				.put("issuingDate", new JSONArray().put(2015).put(9).put(26))
 				.put("expirationDate", new JSONArray().put(2025).put(9).put(26)).put("residenceCountry", "BR");
 
 		JSONArray documents = new JSONArray().put(document);
 
 		JSONObject pax = new JSONObject().put("birthDate", "1996-03-08").put("documents", documents)
-				.put("firstName", "Gustavo").put("gender", "M").put("id", 1).put("lastName", "Evaristo")
+				.put("firstName", "Matheus").put("gender", "M").put("id", 1).put("lastName", "Uzeda")
 				.put("phones", JSONObject.NULL);
 
 		JSONArray paxs = new JSONArray().put(pax);

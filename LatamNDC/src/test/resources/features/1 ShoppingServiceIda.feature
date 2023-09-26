@@ -2,11 +2,11 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @FlightAvailability @Cenário01
+@Regressivo @FlightAvailability @Cenário01 @Ida
 Funcionalidade: Validação de get em FlightAvailability Ida
     Eu como usuário quero fazer pesquisa de passagens de Ida e validar retorno
 
-  @CT01
+  @CT01 @Teste
   Cenário: Get com um adulto SAO/RIO
     Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=SAO,RIO,2023-10-10&packageGroup=GW-CERT&economyClass=YES&economyPremiumClass=YES"
     Quando valido status code de response 200
@@ -36,12 +36,12 @@ Funcionalidade: Validação de get em FlightAvailability Ida
     E ao válidar em body response se há passageiro "ADT" guardo o rateToken "CT03"
 
 
-   @CT04 
-   Cenário: Get com nove adultos MAD/SAO
-    Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyPremiumClass=YES&routes=MAD,SAO,2023-10-10&packageGroup=GW-CERT"
+   @CT04
+   Cenário: Get com nove adultos NAT/FOR
+    Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyPremiumClass=YES&routes=NAT,FOR,2023-10-10&packageGroup=GW-CERT"
     Quando valido status code de response 200
-    Então válido em body response aeroporto saída "MAD"
-    E válido em body response aeroporto chegada "GRU"
+    Então válido em body response aeroporto saída "NAT"
+    E válido em body response aeroporto chegada "FOR"
     E válido em body response quantidade de passageiros 9 "ADTS"
     E ao válidar em body response se há passageiro "ADT" guardo o rateToken "CT04"
     
@@ -55,7 +55,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida
     E válido em body response quantidade de passageiros 8 "CHDS"
     E ao válidar em body response se há passageiro "ADT" guardo o rateToken "CT05"    
     
-   @CT06 
+   @CT06
    Cenário: Get com três adultos, três crianças e três bebês FLN/GRU
     Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,9,9,9,0,0,0&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=FLN,GRU,2023-10-20&packageGroup=GW-CERT"
     Quando valido status code de response 200

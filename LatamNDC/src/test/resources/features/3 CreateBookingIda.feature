@@ -2,11 +2,11 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingCreate @Cenário01
+@Regressivo @BookingCreate @Cenário01 @Ida
 Funcionalidade: Validação de post em criação de reserva
     Eu como usuário quero criar minha reserva aérea
 
-@CT01 
+@CT01 @Teste
 Cenário: Post de criação de reserva com um adulto em voo SAO/RIO 
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "1" junto ao token "bTokenCT01"
     Quando envio requisição de reserva de voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"
@@ -30,7 +30,7 @@ Cenário: Post de criação de reserva com um adulto e um bebê em voo GIG/BPS
     E válido localizador "reservationCode03"
     E válido preço total de reserva "totalOrderPrice03"
     
-    @CT04 
+    @CT04
 Cenário: Post de criação de reserva com nove adultos em voo MAD/SAO
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "4" junto ao token "bTokenCT04"
     Quando envio requisição de reserva de voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"
@@ -46,7 +46,7 @@ Cenário: Post de criação de reserva com um adulto e oito crianças em voo BPS
     E válido localizador "reservationCode05"
     E válido preço total de reserva "totalOrderPrice05"
     
-    @CT06 
+    @CT06
 Cenário: Post de criação de reserva com três adultos, três crianças e três bebês em voo FLN/GRU
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "6" junto ao token "bTokenCT06"
     Quando envio requisição de reserva de voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"
