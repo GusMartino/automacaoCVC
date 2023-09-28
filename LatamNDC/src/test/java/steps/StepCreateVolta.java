@@ -26,7 +26,6 @@ public class StepCreateVolta {
 	@Quando("envio requisição de reserva de voo ida e volta {string}")
 	public void envioRequisiçãoDeReservaDeVooIdaEVolta(String url) {
 		metodo.postRequestShopping(url, requestBody);
-		System.out.println(requestBody);
 
 	}
 

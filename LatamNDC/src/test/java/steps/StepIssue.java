@@ -32,7 +32,6 @@ public class StepIssue {
 	@Quando("envio requisição de emissão do voo {string}")
 	public void envioRequisiçãoDeEmissãoDoVoo(String url) {
 		metodo.postIssue(url, requestBody);
-		System.out.println(requestBody);
 
 	}
 

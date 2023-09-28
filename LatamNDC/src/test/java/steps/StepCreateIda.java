@@ -24,7 +24,6 @@ public class StepCreateIda {
 	@Quando("envio requisição de reserva de voo {string}")
 	public void envioRequisiçãoDeReservaDeVoo(String url) {
 		metodo.postRequestShopping(url, requestBody);
-		System.out.println(requestBody);
 
 	}
 

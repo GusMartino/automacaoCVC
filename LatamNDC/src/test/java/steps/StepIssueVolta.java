@@ -32,7 +32,7 @@ public class StepIssueVolta {
 	@Quando("envio requisição de emissão para o voo {string}")
 	public void envioRequisiçãoDeEmissãoParaOVoo(String url) {
 		metodo.postIssue(url, requestBody);
-		System.out.println(requestBody);
+
 	}
 
 	@Então("válido Status Code {int} junto ao status de bilhete do voo {string}")
