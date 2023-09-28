@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingCreate @Cenário02 @IdaEVolta
+@Regressivo @BookingCreate @Cenário02 
 Funcionalidade: Validação de post em criação de reserva ida e volta
     Eu como usuário quero criar minha reserva aérea com passagem de ida e volta
 
@@ -50,7 +50,7 @@ Cenário: Post de criação de reserva com um adulto e oito crianças em voo BPS
 Cenário: Post de criação de reserva com três adultos, três crianças e três bebês em voo FLN/GRU e GRU/FLN
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "6" junto aos tokens "bTokenIdaCT06" e "bTokenVoltaCT06" 
     Quando envio requisição de reserva de voo ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"
-    Então válido Status Code 200 junto a bookingToken "bookingTokenVolta07"
+    Então válido Status Code 200 junto a bookingToken "bookingTokenVolta06"
     E guardo localizador "reservationCodeVolta06"
     E guardo preço total de reserva "totalOrderPriceVolta06"   
     
@@ -58,6 +58,6 @@ Cenário: Post de criação de reserva com três adultos, três crianças e trê
 Cenário: Post de criação de reserva com um adulto estrangeiro em voo DXB/GRU e GRU/DXB
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "7" junto aos tokens "bTokenIdaCT07" e "bTokenVoltaCT07" 
     Quando envio requisição de reserva de voo ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"
-    Então válido Status Code 200 junto a bookingToken "bookingTokenVolta08"
+    Então válido Status Code 200 junto a bookingToken "bookingTokenVolta07"
     E guardo localizador "reservationCodeVolta07"
     E guardo preço total de reserva "totalOrderPriceVolta07"      

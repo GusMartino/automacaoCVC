@@ -8,143 +8,127 @@ import pages.IssuePage;
 import utilidades.BodyRequestIssue;
 
 public class MetodosIssue {
-	private IssuePage issuePage;
-	private BodyRequestIssue bodyRequestIssue;
+    private IssuePage issuePage;
+    private BodyRequestIssue bodyRequestIssue;
 
-	public MetodosIssue() {
-		issuePage = new IssuePage();
-		bodyRequestIssue = new BodyRequestIssue();
+    public MetodosIssue() {
+        issuePage = new IssuePage();
+        bodyRequestIssue = new BodyRequestIssue();
+    }
 
-	}
+    public JSONObject gerarRequestBodyIssue(String requestType, String bToken, double valor) {
+        if (requestType.equals("Cartao")) {
+            return bodyRequestIssue.generateRequestBodyCartao(bToken, valor);
+        } else if (requestType.equals("Cash")) {
+            return bodyRequestIssue.generateRequestCash(bToken, valor);
+        } else {
+            throw new IllegalArgumentException("Tipo de requisição inválido");
+        }
+    }
 
-	public JSONObject gerarRequestBodyIssue(String requestType, String bToken, double valor) {
-		if (requestType.equals("Cartao")) {
-			return bodyRequestIssue.generateRequestBodyCartao(bToken, valor);
-		} else if (requestType.equals("Cash")) {
-			return bodyRequestIssue.generateRequestCash(bToken, valor);
-		} else {
-			throw new IllegalArgumentException("Tipo de requisição inválido");
-		}
-	}
+    public void postIssue(String url, JSONObject requestBody) {
+        issuePage.postRequestShopping(url, requestBody.toString());
+    }
 
-	public void postIssue(String url, JSONObject requestBody) {
-		issuePage.postRequestShopping(url, requestBody.toString());
+    public void validarStatusCode(int expectedStatusCode) {
+        int statusCode = issuePage.getStatusCode();
+        try {
+            Assert.assertEquals(expectedStatusCode, statusCode);
+            System.out.println("Status Code validado é: " + statusCode);
+        } catch (AssertionError e) {
+            handleAssertionError(expectedStatusCode, statusCode);
+        } catch (Exception e) {
+            handleUnexpectedError(expectedStatusCode);
+        }
+    }
 
-	}
+    private void handleAssertionError(int expectedStatusCode, int actualStatusCode) {
+        String errorMessage = "Erro ao validar Status Code. Esperado: " + expectedStatusCode
+                + ", mas foi recebido: " + actualStatusCode;
+        printErrorAndFail(errorMessage, issuePage.getResponseBody());
+    }
 
-	public void validarStatusCode(int expectedStatusCode) {
-		int statusCode = issuePage.getStatusCode();
-		try {
-			Assert.assertEquals(expectedStatusCode, statusCode);
-			System.out.println("Status Code validado é: " + statusCode);
-		} catch (AssertionError e) {
-			String responseBody = issuePage.getResponseBody();
-			String errorMessage = "Erro ao validar Status Code. Esperado: " + expectedStatusCode
-					+ ", mas foi recebido: " + statusCode;
-			printErrorAndFail(errorMessage, responseBody);
-		} catch (Exception e) {
-			String errorMessage = "Erro inesperado ao validar Status Code: " + expectedStatusCode;
-			printErrorAndFail(errorMessage);
-		}
-	}
+    private void handleUnexpectedError(int expectedStatusCode) {
+        String errorMessage = "Erro inesperado ao validar Status Code: " + expectedStatusCode;
+        printErrorAndFail(errorMessage);
+    }
 
-	private void printErrorAndFail(String errorMessage) {
-		System.err.println(errorMessage);
-		Assert.fail(errorMessage);
-	}
+    private void printErrorAndFail(String errorMessage) {
+        System.err.println(errorMessage);
+        Assert.fail(errorMessage);
+    }
 
-	private void printErrorAndFail(String errorMessage, String responseBody) {
-		System.err.println(errorMessage);
-		System.err.println("Resposta do servidor: " + responseBody);
-		Assert.fail(errorMessage);
-	}
+    private void printErrorAndFail(String errorMessage, String responseBody) {
+        System.err.println(errorMessage);
+        System.err.println("Resposta do servidor: " + responseBody);
+        Assert.fail(errorMessage);
+    }
 
-	public String pegarStatus() {
-		try {
-			JSONObject responseJson = new JSONObject(issuePage.getResponseBody());
-			JSONArray airBookingsArray = responseJson.getJSONArray("airBookings");
+    public String pegarStatus() {
+        JSONObject responseJson = new JSONObject(issuePage.getResponseBody());
+        JSONArray airTicketsArray = responseJson.getJSONArray("airTickets");
 
-			JSONObject firstAirBookingObject = airBookingsArray.getJSONObject(0);
+        if (airTicketsArray.length() > 0) {
+            JSONObject firstAirTicketObject = airTicketsArray.getJSONObject(0);
+            return firstAirTicketObject.getString("status");
+        } else {
+            return null;
+        }
+    }
 
-			JSONObject bookingObject = firstAirBookingObject.getJSONObject("booking");
-			String status = bookingObject.getString("status");
+    public void verificarStatus(String statusBilhete) {
+        String status = pegarStatus();
+        if (status != null && status.equals(statusBilhete)) {
+            System.out.println("Status da reserva: " + status);
+        } else {
+            System.out.println("Não foi possível extrair o status da reserva.");
+        }
+    }
 
-			return status;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    public String pegarTipoPagamento() {
+        JSONObject responseJson = new JSONObject(issuePage.getResponseBody());
+        JSONArray airTicketsArray = responseJson.getJSONArray("airTickets");
 
-		return null;
-	}
+        if (airTicketsArray.length() > 0) {
+            JSONObject firstAirTicketObject = airTicketsArray.getJSONObject(0);
+            JSONArray paymentsArray = firstAirTicketObject.getJSONArray("payments");
 
-	public void verificarStatus(String statusBilhete) {
-		String status = pegarStatus();
-		if (status == statusBilhete) {
-			System.out.println("Valor do status: " + status);
-		} else {
-			System.out.println("Não foi possível extrair o status de reserva.");
-		}
-	}
+            if (paymentsArray.length() > 0) {
+                JSONObject paymentsObject = paymentsArray.getJSONObject(0);
+                return paymentsObject.getString("type");
+            }
+        }
+        return null;
+    }
 
-	public String pegarTipoPagamento() {
-		try {
-			JSONObject responseJson = new JSONObject(issuePage.getResponseBody());
-			JSONArray airBookingsArray = responseJson.getJSONArray("airBookings");
+    public void verificarTipoPagamento(String tipoEsperado) {
+        String tipoPagamento = pegarTipoPagamento();
+        if (tipoPagamento != null && tipoPagamento.equals(tipoEsperado)) {
+            System.out.println("Tipo de pagamento: " + tipoPagamento);
+        } else {
+            System.out.println("Não foi possível extrair o tipo de pagamento.");
+        }
+    }
 
-			JSONObject firstAirBookingObject = airBookingsArray.getJSONObject(0);
-			JSONObject bookingObject = firstAirBookingObject.getJSONObject("booking");
-			JSONArray airTicketsArray = firstAirBookingObject.getJSONArray("airTickets");
+    public String pegarProvedor() {
+        JSONObject responseJson = new JSONObject(issuePage.getResponseBody());
+        JSONArray airTicketsArray = responseJson.getJSONArray("airTickets");
 
-			JSONObject firstAirTicketObject = airTicketsArray.getJSONObject(0);
-			JSONObject paymentsObject = firstAirTicketObject.getJSONArray("payments").getJSONObject(0);
+        if (airTicketsArray.length() > 0) {
+            JSONObject firstAirTicketObject = airTicketsArray.getJSONObject(0);
+            JSONObject gdsObject = firstAirTicketObject.getJSONObject("gds");
 
-			String type = paymentsObject.getString("type");
+            return gdsObject.getString("provider");
+        }
+        return null;
+    }
 
-			return type;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	public void verificarTipoPagamento(String tipoEsperado) {
-		String tipoPagamento = pegarTipoPagamento();
-		if (tipoPagamento != null && tipoPagamento.equals(tipoEsperado)) {
-			System.out.println("Tipo de pagamento: " + tipoPagamento);
-		} else {
-			System.out.println("Não foi possível extrair o tipo de pagamento.");
-		}
-	}
-
-	public String pegarProvedor() {
-		try {
-			JSONObject responseJson = new JSONObject(issuePage.getResponseBody());
-			JSONArray airBookingsArray = responseJson.getJSONArray("airBookings");
-
-			// Certifique-se de que há pelo menos um elemento no array
-			if (airBookingsArray.length() > 0) {
-				JSONObject firstAirBookingObject = airBookingsArray.getJSONObject(0);
-				JSONObject bookingObject = firstAirBookingObject.getJSONObject("booking");
-				JSONObject gdsObject = bookingObject.getJSONObject("gds");
-
-				// Agora você pode pegar o valor de "provider"
-				String provider = gdsObject.getString("provider");
-				return provider;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	public void verificarTipoProvedor(String provedorEsperado) {
-		String tipoProvedor = pegarProvedor();
-		if (tipoProvedor != null && tipoProvedor.equals(provedorEsperado)) {
-			System.out.println("Tipo de pagamento: " + tipoProvedor);
-		} else {
-			System.out.println("Não foi possível extrair o tipo de pagamento.");
-		}
-	}
+    public void verificarTipoProvedor(String provedorEsperado) {
+        String tipoProvedor = pegarProvedor();
+        if (tipoProvedor != null && tipoProvedor.equals(provedorEsperado)) {
+            System.out.println("Provedor selecionado: " + tipoProvedor);
+        } else {
+            System.out.println("Não foi possível extrair o provedor.");
+        }
+    }
 }

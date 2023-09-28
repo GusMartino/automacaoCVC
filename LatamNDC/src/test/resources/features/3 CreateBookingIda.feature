@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingCreate @Cenário01 @Ida
+@Regressivo @BookingCreate @Cenário01 
 Funcionalidade: Validação de post em criação de reserva
     Eu como usuário quero criar minha reserva aérea
 

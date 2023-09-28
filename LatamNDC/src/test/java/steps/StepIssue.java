@@ -11,21 +11,22 @@ import utilidades.MassaDeDados;
 public class StepIssue {
 
 	MetodosIssue metodo = new MetodosIssue();
-	String reservationCode;
+	String bookingToken;
 	double totalOrderPrice;
 	JSONObject requestBody;
 
 	@Dado("que eu tenho uma requisição de emissão de voo utilizando o tipo de request com o token de reserva {string} junto a valor de emissão {string}")
 	public void queEuTenhoUmaRequisiçãoDeEmissãoDeVooUtilizandoOTipoDeRequestComOTokenDeReservaJuntoAValorDeEmissão(
-			String reservationCode, String totalOrderPrice) {
-		reservationCode = MassaDeDados.getRateToken(reservationCode);
-		totalOrderPrice = MassaDeDados.getRateToken(totalOrderPrice);
+			String bookingTokenCT, String totalOrderPriceCT) {
+		bookingToken = MassaDeDados.getRateToken(bookingTokenCT);
+		totalOrderPrice = MassaDeDados.getNumericValue(totalOrderPriceCT);
+
 
 	}
 
 	@Quando("seleciono tipo de pagamento {string}")
 	public void selecionoTipoDePagamento(String tipoPagamento) {
-		requestBody = metodo.gerarRequestBodyIssue(tipoPagamento, reservationCode, totalOrderPrice);
+		requestBody = metodo.gerarRequestBodyIssue(tipoPagamento, bookingToken, totalOrderPrice);
 	}
 
 	@Quando("envio requisição de emissão do voo {string}")
