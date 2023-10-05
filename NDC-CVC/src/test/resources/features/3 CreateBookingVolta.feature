@@ -2,11 +2,11 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingCreate @Cenário02 
+@Regressivo @BookingCreate @Cenário02 @BookingIssue @CancellVoid
 Funcionalidade: Validação de post em criação de reserva ida e volta
     Eu como usuário quero criar minha reserva aérea com passagem de ida e volta
 
-@CT01 
+@CT01
 Cenário: Post de criação de reserva com um adulto em voo ida e volta SAO/RIO e RIO/SAO
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "1" junto aos tokens "bTokenIdaCT01" e "bTokenVoltaCT01" 
     Quando envio requisição de reserva de voo ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"

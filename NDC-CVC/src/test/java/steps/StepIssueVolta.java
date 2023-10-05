@@ -48,5 +48,6 @@ public class StepIssueVolta {
 		metodo.verificarTipoPagamento(tipoPagamento);
 		metodo.pegarProvedor();
 		metodo.verificarTipoProvedor(provedor);
+		metodo.pegarLocalizador();
 	}
 }

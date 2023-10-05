@@ -2,18 +2,17 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @FlightAvailability @Cenário01 @Ida
+@Regressivo @FlightAvailability @Cenário01 @BookingCreate @BookingIssue @CancellBNPL
 Funcionalidade: Validação de get em FlightAvailability Ida
     Eu como usuário quero fazer pesquisa de passagens de Ida e validar retorno
 
-  @CT01 @Teste
+  @CT01 
   Cenário: Get com um adulto SAO/RIO
     Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=SAO,RIO,2023-10-10&packageGroup=GW-CERT&economyClass=YES&economyPremiumClass=YES"
     Quando valido status code de response 200
     Então válido em body response aeroporto saída "GRU"
     E válido em body response aeroporto chegada "GIG"
     E ao válidar em body response se há passageiro "ADT" guardo o rateToken "CT01"
-
 
   
    @CT02 

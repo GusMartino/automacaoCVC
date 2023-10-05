@@ -2,11 +2,11 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @FlightAvailability @Cenário02 @IdaEVolta
+@Regressivo @FlightAvailability @Cenário02 @BookingCreate @BookingIssue @CancellVoid
 Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     Eu como usuário quero fazer pesquisa de passagens de Ida e volta e validar informações importantes de retorno
 
-  @CT01 
+  @CT01
   Cenário: Get com um adulto SAO/RIO e RIO/SAO
     Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,GIG,2023-11-15, GIG,GRU,2023-12-15"
     Quando valido status code 200

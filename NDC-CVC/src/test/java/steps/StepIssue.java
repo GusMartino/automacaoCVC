@@ -48,6 +48,7 @@ public class StepIssue {
 		metodo.verificarTipoPagamento(tipoPagamento);
 		metodo.pegarProvedor();
 		metodo.verificarTipoProvedor(provedor);
+		metodo.pegarLocalizador();
 
 	}
 }

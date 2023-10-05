@@ -2,11 +2,11 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingIssue @Cenário02
+@Regressivo @BookingIssue @Cenário02 @CancellVoid
 Funcionalidade: Validação de post para emissão de reserva de voos ida e volta
     Eu como usuário quero criar minha reserva aérea para voos de ida e volta
     
-   @CT01 
+   @CT01
     Cenário: Post de emissão de reserva aerea ida e volta com um adulto em voo ida e volta SAO/RIO e RIO/SAO  
     Dado que eu tenho uma requisição de emissão doo voo ida e volta com o token de reserva "bookingTokenVolta01" junto a valor de emissão "totalOrderPriceVolta01"
     Quando seleciono tipo de pagamento válido "Cash"

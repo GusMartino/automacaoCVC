@@ -6,7 +6,7 @@
 Funcionalidade: Validação de get em FlightAvailability resposta negativa
     Eu como usuário quero fazer pesquisa de passagens forçando erro para validar resposta de API
 
-  @CT01
+  @CT01 
   Cenário: Get com dez adultos
     Dado que o usuário faça uma pesquisa de disponibilidade de voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=SAO,RIO,2023-10-10&packageGroup=GW-CERT&economyClass=YES&economyPremiumClass=YES"
     Quando preencho uma váriavel negativa para consultar disponibilidade

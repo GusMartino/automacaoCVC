@@ -2,12 +2,12 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingIssue @Cenário01 
+@BookingIssue @Cenário01
 Funcionalidade: Validação de post em emissão de reserva para voo ida
     Eu como usuário quero emitir minha reserva aérea somente ida
 
-    @CT01 @Teste 
-    Cenário: Post de emissão de reserva com um adulto em voo ida ida SAO/RIO 
+    @CT01  
+    Cenário: Post de emissão de reserva com um adulto em voo ida SAO/RIO 
     Dado que eu tenho uma requisição de emissão de voo utilizando o tipo de request com o token de reserva "bookingToken01" junto a valor de emissão "totalOrderPrice01"
     Quando seleciono tipo de pagamento "Cartao"
     E envio requisição de emissão do voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/issue"

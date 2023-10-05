@@ -36,7 +36,7 @@ public class BodyRequestCreateIda {
 		JSONArray documents = new JSONArray().put(document);
 
 		JSONObject pax = new JSONObject().put("birthDate", "1996-03-08").put("documents", documents)
-				.put("firstName", "Matheus").put("gender", "M").put("id", 1).put("lastName", "Uzeda")
+				.put("firstName", "Gustavo").put("gender", "M").put("id", 1).put("lastName", "Evaristo")
 				.put("phones", JSONObject.NULL);
 
 		JSONArray paxs = new JSONArray().put(pax);

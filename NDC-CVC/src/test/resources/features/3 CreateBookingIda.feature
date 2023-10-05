@@ -2,11 +2,11 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @BookingCreate @Cenário01 
+@Regressivo @BookingCreate @Cenário01 @BookingIssue @CancellBNPL
 Funcionalidade: Validação de post em criação de reserva
     Eu como usuário quero criar minha reserva aérea
 
-@CT01 @Teste
+@CT01
 Cenário: Post de criação de reserva com um adulto em voo SAO/RIO 
     Dado que eu tenho uma requisição de reserva de voo utilizando o tipo de requisição "1" junto ao token "bTokenCT01"
     Quando envio requisição de reserva de voo "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings"
