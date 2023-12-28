@@ -25,6 +25,7 @@ public class StepCreateIda {
 	public void envioRequisiçãoDeReservaDeVoo(String url) {
 		metodo.postRequestShopping(url, requestBody);
 
+
 	}
 
 	@Então("válido Status Code {int} guardando o bookingToken {string}")

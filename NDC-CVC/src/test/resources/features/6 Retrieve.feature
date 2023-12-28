@@ -2,47 +2,47 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @Retrieve
+@Regressivo @Retrieve 
 Funcionalidade: Validação de get em Retrieve
     Eu como usuário quero fazer pesquisa de recuperação de passagens para validar status de minha passagem
 
-  @CT01 @Cenário01 @CancellBNPL
+  @CT01 @CancellBNPL
   Cenário: Get em bilhete do CT01 Ida
   Dado que tenho guardado o localizador "reservationCode01"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"
   Então válido status code de reposta 200 junto ao status do bilhete "CANCELLED"
   
-  @CT02 @Cenário01 @CancellBNPL
+  @CT02 @CancellBNPL
   Cenário: Get em bilhete do CT02 Ida
   Dado que tenho guardado o localizador "reservationCode02"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"
   Então válido status code de reposta 200 junto ao status do bilhete "CANCELLED"
  
-  @CT03 @Cenário01 @CancellBNPL
+  @CT03 @CancellBNPL
   Cenário: Get em bilhete do CT03 Ida
   Dado que tenho guardado o localizador "reservationCode03"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"
   Então válido status code de reposta 200 junto ao status do bilhete "CANCELLED"
  
-  @CT04 @Cenário01 @CancellBNPL
+  @CT04 @CancellBNPL
   Cenário: Get em bilhete do CT04 Ida
   Dado que tenho guardado o localizador "reservationCode04"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"
   Então válido status code de reposta 200 junto ao status do bilhete "CANCELLED"
 
-  @CT05 @Cenário01 @CancellBNPL
+  @CT05 @CancellBNPL
   Cenário: Get em bilhete do CT05 Ida
   Dado que tenho guardado o localizador "reservationCode05"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"
   Então válido status code de reposta 200 junto ao status do bilhete "CANCELLED"
  
-  @CT06 @Cenário01 @CancellBNPL
+  @CT06 @CancellBNPL
   Cenário: Get em bilhete do CT06 Ida
   Dado que tenho guardado o localizador "reservationCode06"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"
   Então válido status code de reposta 200 junto ao status do bilhete "CANCELLED"
 
-  @CT07 @Cenário01 @CancellBNPL
+  @CT07 @CancellBNPL
   Cenário: Get em bilhete do CT07 Ida
   Dado que tenho guardado o localizador "reservationCode07"
   Quando faço um get em url de retrieve "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights/bookings/NLAT/"

@@ -40,7 +40,7 @@ public class StepPricingVolta {
 		MassaDeDados.setRateToken(bTokenIda, rateTokenIda);
 
 		String rateTokenVolta = metodo.pegarRateTokenPorVoo(aeroportoVolta, aeroportoIda);
-		System.out.println("O valor do rate Token de volta: " + rateTokenVolta);
+		metodo.verificarRateToken(bTokenVolta);
 		MassaDeDados.setRateToken(bTokenVolta, rateTokenVolta);
 
 	}

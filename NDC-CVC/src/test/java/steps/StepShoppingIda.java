@@ -35,11 +35,12 @@ public class StepShoppingIda {
 
 	}
 
-	@Então("ao válidar em body response se há passageiro {string} guardo o rateToken {string}")
-	public void aoVálidarEmBodyResponseSeHáPassageiroGuardoORateToken(String passageiro, String tokenCT) {
-		metodo.validarPassageiroPrincipal(passageiro);
-		String rateToken = metodo.pegarRateToken(tokenCT);
-		metodo.verificarRateToken(tokenCT);
+
+		@Então("guardo o rateToken {string} da companhia aérea esperada {string}")
+		public void guardoORateTokenDaCompanhiaAéreaEsperada(String tokenCT, String companyName) {
+			
+		String rateToken = metodo.pegarRateToken(tokenCT, companyName);
+		metodo.verificarRateToken(tokenCT, companyName);
 		MassaDeDados.setRateToken(tokenCT, rateToken);
 
 	}

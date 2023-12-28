@@ -9,10 +9,11 @@ import org.json.JSONObject;
 
 public class BodyRequestCreateIda {
 
-	private static final String[] nomes = { "Gabriel", "Lucas", "Gustavo", "Fernando", "João", "Rafael", "José",
+	private static final String[] nomes = { "Marcos", "Lucas", "Gustavo", "Fernando", "João", "Rafael", "José",
 			"Otávio", "Guilherme", "Cristiano", "Giovane", "Lionel", "Neymar" };
 	private static final String[] sobrenomes = { "Silva", "Costa", "Pereira", "Santos", "Oliveira", "Evaristo",
 			"Ronaldo", "Messi", "Junior" };
+
 
 	public JSONObject generateRequestBody1(String bToken) {
 		JSONObject address = new JSONObject().put("city", "Santo Andre").put("complement", "9 andar")
@@ -130,150 +131,194 @@ public class BodyRequestCreateIda {
 		return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxsArray);
 	}
 
-	public JSONObject generateRequestBody4(String bToken) {
-		JSONObject address = new JSONObject().put("city", "Sao Paulo").put("complement", "10th floor")
-				.put("county", "BR").put("number", "123").put("state", "SP").put("street", "Sample Street")
-				.put("zipCode", "12345-678");
+	private String generateUniqueCPF() {
+	    Random random = new Random();
+	    int[] cpf = new int[11];
 
-		JSONObject emitter = new JSONObject().put("address", address).put("birthDate", "1980-01-15")
-				.put("documents", JSONObject.NULL).put("email", "adult@example.com")
-				.put("phones", new JSONArray().put(new JSONObject().put("internationalCode", 55).put("localCode", 11)
-						.put("number", "987654321").put("type", "MOBILE")));
+	    for (int i = 0; i < 9; i++) {
+	        cpf[i] = random.nextInt(10);
+	    }
 
-		JSONObject airBooking = new JSONObject().put("paxsId", JSONObject.NULL)
-				.put("taxesCurrencyType", JSONObject.NULL).put("tokenizedRateTokens", bToken);
+	
+	    cpf[9] = calculaDigitoVerificador(cpf, 9);
+	    
 
-		JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
+	    cpf[10] = calculaDigitoVerificador(cpf, 10);
 
-		JSONArray paxs = new JSONArray();
-
-		Random random = new Random();
-		List<String> generatedNames = new ArrayList<>(); 
-
-		for (int i = 1; i <= 9; i++) {
-			String nome;
-			String sobrenome;
-			do {
-				nome = nomes[random.nextInt(nomes.length)];
-				sobrenome = sobrenomes[random.nextInt(sobrenomes.length)];
-			} while (generatedNames.contains(nome + " " + sobrenome)); // Verificar se o nome já foi gerado
-
-			generatedNames.add(nome + " " + sobrenome); // Adicionar o nome gerado à lista
-
-			JSONObject adultPax = new JSONObject().put("birthDate", "1980-01-15")
-					.put("documents", new JSONArray().put(createDocument("PASSPORT", "SK121151" + i, "BR",
-							new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
-					.put("firstName", nome).put("gender", "M").put("id", i).put("lastName", sobrenome)
-					.put("phones", JSONObject.NULL);
-
-			paxs.put(adultPax);
-		}
-
-		return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxs);
-
+	
+	    StringBuilder cpfFormatado = new StringBuilder();
+	    for (int i = 0; i < 11; i++) {
+	        cpfFormatado.append(cpf[i]);
+	    }
+	    return cpfFormatado.toString();
 	}
 
-	public JSONObject generateRequestBody5(String bToken) {
-		JSONObject address = new JSONObject().put("city", "Sao Paulo").put("complement", "10th floor")
-				.put("county", "BR").put("number", "123").put("state", "SP").put("street", "Sample Street")
-				.put("zipCode", "12345-678");
+	private int calculaDigitoVerificador(int[] cpf, int posicao) {
+	    int soma = 0;
+	    int multiplicador = posicao + 1;
 
-		JSONObject emitter = new JSONObject().put("address", address).put("birthDate", "1980-01-15")
-				.put("documents", JSONObject.NULL).put("email", "adult@example.com")
-				.put("phones", new JSONArray().put(new JSONObject().put("internationalCode", 55).put("localCode", 11)
-						.put("number", "987654321").put("type", "MOBILE")));
+	    for (int i = 0; i < posicao; i++) {
+	        soma += cpf[i] * multiplicador;
+	        multiplicador--;
+	    }
 
-		JSONObject airBooking = new JSONObject().put("paxsId", JSONObject.NULL)
-				.put("taxesCurrencyType", JSONObject.NULL).put("tokenizedRateTokens", bToken);
+	    int resto = soma % 11;
+	    int digito = 11 - resto;
 
-		JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
-
-		JSONArray paxs = new JSONArray();
-
-		Random random = new Random();
-
-		String adultFirstName = nomes[random.nextInt(nomes.length)];
-		String adultLastName = sobrenomes[random.nextInt(sobrenomes.length)];
-		JSONObject adultPax = new JSONObject().put("birthDate", "1980-01-15")
-				.put("documents", new JSONArray().put(createDocument("PASSPORT", "SK1211501", "BR",
-						new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
-				.put("firstName", adultFirstName).put("gender", "M").put("id", 1).put("lastName", adultLastName)
-				.put("phones", JSONObject.NULL);
-
-		paxs.put(adultPax);
-
-		for (int i = 2; i <= 9; i++) {
-			String childFirstName = nomes[random.nextInt(nomes.length)];
-			String childLastName = sobrenomes[random.nextInt(sobrenomes.length)];
-			JSONObject childPax = new JSONObject().put("birthDate", "2019-01-15")
-					.put("documents", new JSONArray().put(createDocument("PASSPORT", "SK121150" + i, "BR",
-							new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
-					.put("firstName", childFirstName).put("gender", "M").put("id", i).put("lastName", childLastName)
-					.put("phones", JSONObject.NULL);
-
-			paxs.put(childPax);
-		}
-
-		return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxs);
+	    return (digito >= 10) ? 0 : digito;
 	}
 
-	public JSONObject generateRequestBody6(String bToken) {
-		JSONObject address = new JSONObject().put("city", "Sao Paulo").put("complement", "10th floor")
-				.put("county", "BR").put("number", "123").put("state", "SP").put("street", "Sample Street")
-				.put("zipCode", "12345-678");
 
-		JSONObject emitter = new JSONObject().put("address", address).put("birthDate", "1980-01-15")
-				.put("documents", JSONObject.NULL).put("email", "adult@example.com")
-				.put("phones", new JSONArray().put(new JSONObject().put("internationalCode", 55).put("localCode", 11)
-						.put("number", "987654321").put("type", "MOBILE")));
+	    public JSONObject generateRequestBody4(String bToken) {
+	        JSONObject address = new JSONObject().put("city", "Sao Paulo").put("complement", "10th floor")
+	                .put("county", "BR").put("number", "123").put("state", "SP").put("street", "Sample Street")
+	                .put("zipCode", "12345-678");
 
-		JSONObject airBooking = new JSONObject().put("paxsId", JSONObject.NULL)
-				.put("taxesCurrencyType", JSONObject.NULL).put("tokenizedRateTokens", bToken);
+	        JSONObject emitter = new JSONObject().put("address", address).put("birthDate", "1980-01-15")
+	                .put("documents", JSONObject.NULL).put("email", "adult@example.com")
+	                .put("phones", new JSONArray().put(new JSONObject().put("internationalCode", 55).put("localCode", 11)
+	                        .put("number", "987654321").put("type", "MOBILE")));
 
-		JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
+	        JSONObject airBooking = new JSONObject().put("paxsId", JSONObject.NULL)
+	                .put("taxesCurrencyType", JSONObject.NULL).put("tokenizedRateTokens", bToken);
 
-		JSONArray paxs = new JSONArray();
+	        JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
 
-		Random random = new Random();
+	        JSONArray paxs = new JSONArray();
 
-		for (int i = 1; i <= 3; i++) {
-			String adultFirstName = nomes[random.nextInt(nomes.length)];
-			String adultLastName = sobrenomes[random.nextInt(sobrenomes.length)];
-			JSONObject adultPax = new JSONObject().put("birthDate", "1980-01-15")
-					.put("documents", new JSONArray().put(createDocument("PASSPORT", "SK121150" + i, "BR",
-							new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
-					.put("firstName", adultFirstName).put("gender", "M").put("id", i).put("lastName", adultLastName)
-					.put("phones", JSONObject.NULL);
+	        Random random = new Random();
+	        List<String> generatedNames = new ArrayList<>(); // Lista para acompanhar nomes gerados
 
-			paxs.put(adultPax);
-		}
+	        for (int i = 1; i <= 9; i++) {
+	            String nome;
+	            String sobrenome;
+	            do {
+	                nome = nomes[random.nextInt(nomes.length)];
+	                sobrenome = sobrenomes[random.nextInt(sobrenomes.length)];
+	            } while (generatedNames.contains(nome + " " + sobrenome)); // Verificar se o nome já foi gerado
 
-		for (int i = 4; i <= 6; i++) {
-			String childFirstName = nomes[random.nextInt(nomes.length)];
-			String childLastName = sobrenomes[random.nextInt(sobrenomes.length)];
-			JSONObject childPax = new JSONObject().put("birthDate", "2019-01-15")
-					.put("documents", new JSONArray().put(createDocument("PASSPORT", "SK12115" + i, "BR",
-							new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
-					.put("firstName", childFirstName).put("gender", "M").put("id", i).put("lastName", childLastName)
-					.put("phones", JSONObject.NULL);
+	            generatedNames.add(nome + " " + sobrenome); // Adicionar o nome gerado à lista
 
-			paxs.put(childPax);
-		}
+	            String uniqueCPF = generateUniqueCPF(); // Gerar um CPF único
+	            JSONObject adultPax = new JSONObject()
+	                    .put("birthDate", "1980-01-15")
+	                    .put("documents", new JSONArray()
+	                            .put(createDocument("CPF", uniqueCPF, "BR",
+	                                    new JSONArray().put(2023).put(7).put(10),
+	                                    new JSONArray().put(2033).put(7).put(10), "BR")))
+	                    .put("firstName", nome)
+	                    .put("gender", "M")
+	                    .put("id", i)
+	                    .put("lastName", sobrenome)
+	                    .put("phones", JSONObject.NULL);
 
-		for (int i = 7; i <= 9; i++) {
-			String babyFirstName = nomes[random.nextInt(nomes.length)];
-			String babyLastName = sobrenomes[random.nextInt(sobrenomes.length)];
-			JSONObject babyPax = new JSONObject().put("birthDate", "2023-01-15")
-					.put("documents", new JSONArray().put(createDocument("PASSPORT", "SK12116" + i, "BR",
-							new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
-					.put("firstName", babyFirstName).put("gender", "M").put("id", i).put("lastName", babyLastName)
-					.put("phones", JSONObject.NULL);
+	            paxs.put(adultPax);
+	        }
 
-			paxs.put(babyPax);
-		}
+	        return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxs);
+	    }
 
-		return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxs);
-	}
+	    public JSONObject generateRequestBody5(String bToken) {
+	        JSONObject address = new JSONObject().put("city", "Sao Paulo").put("complement", "10th floor")
+	                .put("county", "BR").put("number", "123").put("state", "SP").put("street", "Sample Street")
+	                .put("zipCode", "12345-678");
+
+	        JSONObject emitter = new JSONObject().put("address", address).put("birthDate", "1980-01-15")
+	                .put("documents", JSONObject.NULL).put("email", "adult@example.com")
+	                .put("phones", new JSONArray().put(new JSONObject().put("internationalCode", 55).put("localCode", 11)
+	                        .put("number", "987654321").put("type", "MOBILE")));
+
+	        JSONObject airBooking = new JSONObject().put("paxsId", JSONObject.NULL)
+	                .put("taxesCurrencyType", JSONObject.NULL).put("tokenizedRateTokens", bToken);
+
+	        JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
+
+	        JSONArray paxs = new JSONArray();
+
+	        Random random = new Random();
+
+	        String adultFirstName = nomes[random.nextInt(nomes.length)];
+	        String adultLastName = sobrenomes[random.nextInt(sobrenomes.length)];
+	        JSONObject adultPax = new JSONObject().put("birthDate", "1980-01-15")
+	                .put("documents", new JSONArray().put(createDocument("CPF", generateUniqueCPF(), "BR",
+	                        new JSONArray().put(2023).put(7).put(10), new JSONArray().put(2033).put(7).put(10), "BR")))
+	                .put("firstName", adultFirstName).put("gender", "M").put("id", 1).put("lastName", adultLastName)
+	                .put("phones", JSONObject.NULL);
+
+	        paxs.put(adultPax);
+
+	        for (int i = 2; i <= 9; i++) {
+	            String childFirstName = nomes[random.nextInt(nomes.length)];
+	            String childLastName = sobrenomes[random.nextInt(sobrenomes.length)];
+	            JSONObject childPax = new JSONObject().put("birthDate", "2019-01-15")
+	                    .put("documents", new JSONArray().put(createDocument("PASSPORT", "SK12115" + i, "BR",
+	                            new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
+	                    .put("firstName", childFirstName).put("gender", "M").put("id", i).put("lastName", childLastName)
+	                    .put("phones", JSONObject.NULL);
+
+	            paxs.put(childPax);
+	        }
+
+	        return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxs);
+	    }
+
+	    public JSONObject generateRequestBody6(String bToken) {
+	        JSONObject address = new JSONObject().put("city", "Sao Paulo").put("complement", "10th floor")
+	                .put("county", "BR").put("number", "123").put("state", "SP").put("street", "Sample Street")
+	                .put("zipCode", "12345-678");
+
+	        JSONObject emitter = new JSONObject().put("address", address).put("birthDate", "1980-01-15")
+	                .put("documents", JSONObject.NULL).put("email", "adult@example.com")
+	                .put("phones", new JSONArray().put(new JSONObject().put("internationalCode", 55).put("localCode", 11)
+	                        .put("number", "987654321").put("type", "MOBILE")));
+
+	        JSONObject airBooking = new JSONObject().put("paxsId", JSONObject.NULL)
+	                .put("taxesCurrencyType", JSONObject.NULL).put("tokenizedRateTokens", bToken);
+
+	        JSONObject orderItems = new JSONObject().put("airBooking", airBooking);
+
+	        JSONArray paxs = new JSONArray();
+
+	        Random random = new Random();
+
+	        for (int i = 1; i <= 3; i++) {
+	            String adultFirstName = nomes[random.nextInt(nomes.length)];
+	            String adultLastName = sobrenomes[random.nextInt(sobrenomes.length)];
+	            JSONObject adultPax = new JSONObject().put("birthDate", "1980-01-15")
+	                    .put("documents", new JSONArray().put(createDocument("CPF", generateUniqueCPF(), "BR",
+	                            new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
+	                    .put("firstName", adultFirstName).put("gender", "M").put("id", i).put("lastName", adultLastName)
+	                    .put("phones", JSONObject.NULL);
+
+	            paxs.put(adultPax);
+	        }
+
+	        for (int i = 4; i <= 6; i++) {
+	            String childFirstName = nomes[random.nextInt(nomes.length)];
+	            String childLastName = sobrenomes[random.nextInt(sobrenomes.length)];
+	            JSONObject childPax = new JSONObject().put("birthDate", "2019-01-15")
+	                    .put("documents", new JSONArray().put(createDocument("CPF", generateUniqueCPF(), "BR",
+	                            new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
+	                    .put("firstName", childFirstName).put("gender", "M").put("id", i).put("lastName", childLastName)
+	                    .put("phones", JSONObject.NULL);
+
+	            paxs.put(childPax);
+	        }
+
+	        for (int i = 7; i <= 9; i++) {
+	            String babyFirstName = nomes[random.nextInt(nomes.length)];
+	            String babyLastName = sobrenomes[random.nextInt(sobrenomes.length)];
+	            JSONObject babyPax = new JSONObject().put("birthDate", "2023-01-15")
+	                    .put("documents", new JSONArray().put(createDocument("CPF", generateUniqueCPF(), "BR",
+	                            new JSONArray().put(2023).put(7).put(26), new JSONArray().put(2033).put(7).put(26), "BR")))
+	                    .put("firstName", babyFirstName).put("gender", "M").put("id", i).put("lastName", babyLastName)
+	                    .put("phones", JSONObject.NULL);
+
+	            paxs.put(babyPax);
+	        }
+
+	        return new JSONObject().put("emitter", emitter).put("orderItems", orderItems).put("paxs", paxs);
+	    }
 
 	public JSONObject generateRequestBody7(String bToken) {
 		JSONObject address = new JSONObject().put("city", "Santo Andre").put("complement", "9 andar")

@@ -33,15 +33,16 @@ public class StepShoppingVolta {
 
 	}
 
-	@Então("se houver passageiro {string} em response pego token de ida {string} {string} e volta {string} {string}")
-	public void seHouverPassageiroEmResponsePegoTokenDeIdaEVolta(String passageiro, String aeroportoIda,
-			String tokenIdaCT, String aeroportoVolta, String tokenVoltaCT) {
+	@Então("se houver passageiro {string} em response seleciono a companhia aérea {string} pego token de ida {string} {string} e volta {string} {string}")
+	public void seHouverPassageiroEmResponseSelecionoACompanhiaAéreaPegoTokenDeIdaEVolta(String passageiro,
+			String companyName, String aeroportoIda, String tokenIdaCT, String aeroportoVolta, String tokenVoltaCT) {
+
 		metodo.validarPassageiroPrincipal(passageiro);
-		String rateTokenIda = metodo.pegarRateTokenPorVoo(aeroportoIda, aeroportoVolta);
-		metodo.verificarRateToken(rateTokenIda);
+		String rateTokenIda = metodo.pegarRateTokenPorVoo(aeroportoIda, aeroportoVolta, companyName);
+		metodo.verificarRateToken(rateTokenIda, companyName);
 		MassaDeDados.setRateToken(tokenIdaCT, rateTokenIda);
 
-		String rateTokenVolta = metodo.pegarRateTokenPorVoo(aeroportoVolta, aeroportoIda);
+		String rateTokenVolta = metodo.pegarRateTokenPorVoo(aeroportoVolta, aeroportoIda, companyName);
 		System.out.println("O valor do rate Token de volta: " + rateTokenVolta);
 		MassaDeDados.setRateToken(tokenVoltaCT, rateTokenVolta);
 	}
@@ -55,7 +56,6 @@ public class StepShoppingVolta {
 	@Então("válido em body response quantidade de passageiros alternativos {int} {string}")
 	public void válidoEmBodyResponseQuantidadeDePassageirosAlternativos(Integer qntPassageiros,
 			String tipoPassageiros) {
-
 		metodo.validarQuantidade(qntPassageiros, tipoPassageiros);
 
 	}
