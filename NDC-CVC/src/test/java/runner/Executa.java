@@ -9,7 +9,7 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/features", //
 glue = "steps", 
-tags = "@InformativePricing", 
+tags = "@Cenário04", 
 plugin = {"pretty", "html:target/cucumber-report.html" }, 
 snippets = SnippetType.CAMELCASE)
 

@@ -8,7 +8,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
 
   @CT01
   Cenário: Get com um adulto SAO/RIO e RIO/SAO
-    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,GIG,2023-12-15, GIG,GRU,2024-02-15"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,GIG,2024-01-15, GIG,GRU,2024-02-15"
     Quando valido status code 200
     Então válido em body response aeroporto de ida "GRU"
     E válido em body response aeroporto chegada e volta "GIG"
@@ -26,7 +26,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     
    @CT03 
    Cenário: Get com um adulto e um bebê GIG/BPS e BPS/GIG
-    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,1&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GIG,BPS,2023-12-15, BPS,GIG,2024-02-15"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,1&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GIG,BPS,2024-01-15, BPS,GIG,2024-02-15"
     Quando valido status code 200
     Então válido em body response aeroporto de ida "GIG"
     E válido em body response aeroporto chegada e volta "BPS"
@@ -35,7 +35,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
 
    @CT04
    Cenário: Get com nove adultos NAT/FOR e FOR/NAT
-    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=NAT,FOR,2023-12-15, FOR,NAT,2024-02-15"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,30,30,30,30,30,30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=NAT,FOR,2024-01-15, FOR,NAT,2024-02-15"
     Quando valido status code 200
     Então válido em body response aeroporto de ida "NAT"
     E válido em body response aeroporto chegada e volta "FOR"
@@ -45,7 +45,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     
    @CT05
    Cenário: Get com um adulto e oito crianças BPS/FLN e FLN/BPS
-    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,8,8,8,8,8,8,8,8&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FLN,BPS,2023-12-15, BPS,FLN,2024-02-15"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,8,8,8,8,8,8,8,8&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FLN,BPS,2024-01-15, BPS,FLN,2024-02-15"
     Quando valido status code 200
     Então válido em body response aeroporto de ida "BPS"
     E válido em body response aeroporto chegada e volta "FLN"
@@ -55,7 +55,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     
    @CT06
    Cenário: Get com três adultos, três crianças e três bebês FLN/GRU e GRU/FLN
-    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,1,1,1,9,9,9&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FLN,GRU,2023-12-15, GRU,FLN,2024-02-15"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,30,30,1,1,1,9,9,9&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=FLN,GRU,2024-01-15, GRU,FLN,2024-02-15"
     Quando valido status code 200
     Então válido em body response aeroporto de ida "FLN"
     E válido em body response aeroporto chegada e volta "GRU"
@@ -66,7 +66,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     
   @CT07 
   Cenário: Get com um adulto estrangeiro GRU/GIG e GIG/GRU
-    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,GIG,2023-12-15, GIG,GRU,2024-02-15"
+    Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=GRU,GIG,2024-01-15, GIG,GRU,2024-02-15"
     Quando valido status code 200
     Então válido em body response aeroporto de ida "GRU"
     E válido em body response aeroporto chegada e volta "GIG"

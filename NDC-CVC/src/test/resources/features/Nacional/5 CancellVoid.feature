@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @CancellVoid @Cenário02 
+@Regressivo @CancellVoid @Cenário02 @Cenário04
 Funcionalidade: Delete em requisição para cancelar bilhete emitido dos voos de ida e volta
     Eu como usuário quero cancelar meu bilhete emitido
 

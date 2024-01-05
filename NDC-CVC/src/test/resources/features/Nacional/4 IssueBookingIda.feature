@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@BookingIssue @Cenário01
+@BookingIssue @Cenário01 @Cenário04
 Funcionalidade: Validação de post em emissão de reserva para voo ida
     Eu como usuário quero emitir minha reserva aérea somente ida
 
