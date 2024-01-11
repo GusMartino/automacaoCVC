@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @Retrieve @Cenário04
+@Regressivo @Retrieve 
 Funcionalidade: Validação de get em Retrieve
     Eu como usuário quero fazer pesquisa de recuperação de passagens para validar status de minha passagem
 

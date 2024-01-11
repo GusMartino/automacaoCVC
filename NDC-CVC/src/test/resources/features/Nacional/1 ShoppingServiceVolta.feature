@@ -15,7 +15,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida e Volta
     E se houver passageiro "ADT" em response seleciono a companhia aérea "LATAM" pego token de ida "GRU" "tokenIdaCT01" e volta "GIG" "tokenVoltaCT01"
 
   
-   @CT02 @tEST
+   @CT02 
    Cenário: Get com um adulto e uma criança BPS/CGH e CGH/BPS
     Dado que o usuário faça uma pesquisa com a opção ida e volta "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,9&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&economyClass=YES&packageGroup=GW-CERT&routes=BPS,CHG,2024-01-15, CHG,BPS,2024-02-12"
     Quando valido status code 200
