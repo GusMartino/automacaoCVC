@@ -20,6 +20,7 @@ public class StepShoppingIda {
 	@Quando("valido status code de response {int}")
 	public void validoStatusCodeDeResponse(int expectedStatusCode) {
 		metodo.validarStatusCode(expectedStatusCode);
+		
 
 	}
 

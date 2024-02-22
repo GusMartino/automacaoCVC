@@ -15,6 +15,8 @@ public class BodyRequestCreateIda {
 			"Ronaldo", "Messi", "Junior" };
 
 
+	
+	// DOCUMENTACAO DE UM ADULTO
 	public JSONObject generateRequestBody1(String bToken) {
 		JSONObject address = new JSONObject().put("city", "Santo Andre").put("complement", "9 andar")
 				.put("county", "BR").put("number", "227").put("state", "SP").put("street", "CATEQUESE")

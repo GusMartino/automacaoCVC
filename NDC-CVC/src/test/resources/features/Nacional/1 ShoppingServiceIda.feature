@@ -3,13 +3,13 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @FlightAvailability @Cenário01 @InformativePricing @BookingCreate @BookingIssue @CancellBNPL 
+@Regressivo @FlightAvailability @Cenário01 @InformativePricing @BookingCreate @BookingIssue @CancellBNPL @Ida
 Funcionalidade: Validação de get em FlightAvailability Ida
     Eu como usuário quero fazer pesquisa de passagens de Ida e validar retorno
 
   @CT01
   Cenário: Get com um adulto SAO/RIO
-    Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30&preferences=persistLog%2Clanguage%3Apt_BR%2Ccurrency%3ABRL%2CmaxResults%3A600&source=NLAT&routes=GRU,GIG,2024-02-12&packageGroup=GW-CERT&businessClass=ALSO&airCompanies=AV"
+    Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&ages=30&source=NLAT&routes=GRU,GIG,2024-02-20&packageGroup=GW-CERT"
     Quando valido status code de response 200
     Então válido em body response aeroporto saída "GRU"
     E válido em body response aeroporto chegada "GIG"
@@ -18,7 +18,7 @@ Funcionalidade: Validação de get em FlightAvailability Ida
   
    @CT02 
    Cenário: Get com um adulto e uma criança BPS/GIG
-    Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?ages=30,7&preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&source=NLAT&routes=BPS,GIG,2024-02-12&packageGroup=GW-CERT&economyPremiumClass=YES"
+    Dado que o usuário faça uma pesquisa com a opção só ida "https://search-cvc-hom.reservafacil.tur.br/gwaereo/v0/flights?preferences=persistLog,language:pt_BR,currency:BRL,maxResults:600&ages=30,8&source=NLAT&routes=BPS,GIG,2024-02-20&packageGroup=GW-CERT"
     Quando valido status code de response 200
     Então válido em body response aeroporto saída "BPS"
     E válido em body response aeroporto chegada "GIG"

@@ -2,7 +2,7 @@
 #encoding: utf-8
 #Author: gustavooliveira@ext.cvccorp.com.br
 
-@Regressivo @InformativePricing @Cenário01 @BookingCreate @BookingIssue @CancellBNPL
+@Regressivo @InformativePricing @Cenário01 @BookingCreate @BookingIssue @CancellBNPL @Ida
 Funcionalidade: Validação de get em InformativePricing Ida
     Eu como usuário quero confirmar preço de voo e validar respota
 
